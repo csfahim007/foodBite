@@ -1,0 +1,17 @@
+# Ignore node modules everywhere
+**/node_modules/
+**/dist/
+**/build/
+
+# Ignore .env and system files
+**/.env
+**/.env.*
+.DS_Store
+Thumbs.db
+
+# Ignore editor and OS settings
+.vscode/
+.idea/
+
+# Optional: cache
+**/.cache/

@@ -1,0 +1,53 @@
+*Functional Requirement Document (FRD) for Food Delivery Website*
+
+*Module 1: User Management*  
+Components: Register, Login, Profile Management, Order History, Preferences  
+*FR 1:* Users can register and log in to the system.  
+*FR 2:* Users can manage their profile, including updating contact details, address, and payment information.  
+*FR 3:* Users can view their past orders in the order history section.  
+*FR 4:* Users can set dietary preferences, including selecting allergic foods to avoid.  
+*FR 5:* Users can save favorite restaurants and frequently ordered items for easy reordering.  
+
+*Module 2: Food Ordering & Delivery*  
+Components: Restaurant Search, Menu, Cart, Checkout, Order Tracking  
+*FR 1:* Users can browse and search for restaurants and food items.  
+*FR 2:* Users can view restaurant menus with item descriptions, pricing, and ratings.  
+*FR 3:* Users can add items to the cart and customize their orders.  
+*FR 4:* Users can complete the checkout process with multiple payment options.  
+*FR 5:* Users can track their orders in real-time with estimated delivery time.  
+
+*Module 3: Food Waste Management*  
+Components: Donation System, Expiry Notifications, Discounted Items, Partner Restaurants, Analytics  
+*FR 1:* Users can view discounted food items nearing expiry from restaurants.  
+*FR 2:* Restaurants can donate surplus food to partnered charities via the platform.  
+*FR 3:* Users can receive notifications about food wastage reduction programs and initiatives.  
+*FR 4:* Restaurants can track food wastage and receive analytics to optimize inventory.  
+*FR 5:* Users can earn rewards for contributing to food waste reduction efforts.  
+
+*Module 4: Additional Services*  
+Components: Job Application, Diet Plan, Reviews, Customer Support, Promotions  
+*FR 1:* Users can apply for job positions at partner restaurants through an integrated job application form.  
+*FR 2:* Users can generate personalized diet plans based on their preferences and health goals.  
+*FR 3:* Users can leave reviews and ratings for restaurants and delivery services.  
+*FR 4:* Users can access customer support via chat, email, or phone for issue resolution.  
+*FR 5:* Users can receive promotional offers, discount codes, and loyalty rewards.  
+
+This document ensures that the website includes key features such as food waste management, job applications, allergic food selection, and diet planning while maintaining a structured and user-friendly approach.
+
+Frontend - (react.js)
+Backend - (Node.js and Express.js)
+Database - (MongoDB + Mongoose)
+
+
+
+
+
+
+//run all (copy below ):
+
+# Seed the database
+cd backend
+npm run seed
+cd ..
+# Run both frontend and backend
+npm run dev

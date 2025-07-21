@@ -37,9 +37,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Database connection
-mongoose.connect(process.env.MONGO_URI, {
-  // Removed deprecated options for modern MongoDB driver
-})
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => {
     console.error('MongoDB connection error:', err);
@@ -73,8 +71,13 @@ app.get('/health', (req, res) => {
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
   
-  // Catch-all handler: send back React's index.html file for client-side routing
-  app.get('*', (req, res) => {
+  // Handle client-side routing - send index.html for non-API routes
+  app.use((req, res, next) => {
+    // Skip API routes
+    if (req.path.startsWith('/api/')) {
+      return next();
+    }
+    // Send React app for all other routes
     res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
   });
 }
@@ -88,11 +91,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
-app.use((req, res) => {
+// 404 handler for API routes
+app.use('/api/*', (req, res) => {
   res.status(404).json({
     success: false,
-    message: 'Endpoint not found'
+    message: 'API endpoint not found'
   });
 });
 

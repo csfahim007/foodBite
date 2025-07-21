@@ -38,8 +38,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Database connection
 mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+  // Removed deprecated options for modern MongoDB driver
 })
   .then(() => console.log('MongoDB connected'))
   .catch(err => {
@@ -74,7 +73,8 @@ app.get('/health', (req, res) => {
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
   
-  app.get('*', (req, res) => {
+  // FIXED: Express 5.x compatible catch-all route with named wildcard
+  app.get('/:catchAll(*)', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
   });
 }

@@ -73,8 +73,8 @@ app.get('/health', (req, res) => {
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
   
-  // FIXED: Express 5.x compatible catch-all route with named wildcard
-  app.get('/:catchAll(*)', (req, res) => {
+  // Catch-all handler: send back React's index.html file for client-side routing
+  app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
   });
 }

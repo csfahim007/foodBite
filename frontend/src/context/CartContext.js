@@ -10,7 +10,7 @@ export const CartProvider = ({ children }) => {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get('/api/cart');
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/cart`);
       setCart(res.data);
     } catch (err) {
       console.error('Error fetching cart:', err);
@@ -22,7 +22,7 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = async ({ menuItemId, quantity, restaurantId }) => {
     try {
-      const res = await axios.post('/api/cart/items', {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/cart/items`, {
         menuItemId,
         quantity,
         restaurantId
@@ -37,7 +37,7 @@ export const CartProvider = ({ children }) => {
 
   const updateCartItem = async (itemId, updates) => {
     try {
-      const res = await axios.put(`/api/cart/items/${itemId}`, updates);
+      const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/cart/items/${itemId}`, updates);
       setCart(res.data);
     } catch (err) {
       console.error('Error updating cart item:', err);
@@ -47,7 +47,7 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = async (itemId) => {
     try {
-      const res = await axios.delete(`/api/cart/items/${itemId}`);
+      const res = await axios.delete(`${process.env.REACT_APP_API_URL}/api/cart/items/${itemId}`);
       setCart(res.data);
     } catch (err) {
       console.error('Error removing from cart:', err);
@@ -57,7 +57,7 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = async () => {
     try {
-      await axios.delete('/api/cart');
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/cart`);
       setCart({ items: [], restaurant: null });
     } catch (err) {
       console.error('Error clearing cart:', err);

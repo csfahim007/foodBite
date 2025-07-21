@@ -9,7 +9,7 @@ const Home = () => {
   useEffect(() => {
     const fetchFeaturedRestaurants = async () => {
       try {
-        const res = await axios.get('/api/restaurants?limit=6');
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/restaurants?limit=6`);
         setFeaturedRestaurants(res.data);
         setLoading(false);
       } catch (err) {

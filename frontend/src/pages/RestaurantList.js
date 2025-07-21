@@ -14,7 +14,7 @@ const RestaurantList = () => {
     const fetchRestaurants = async () => {
       try {
         setLoading(true);
-        const res = await axios.get('/api/restaurants');
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/restaurants`);
         
         console.log('Full API response:', res); // Debug log
         
@@ -60,7 +60,7 @@ const RestaurantList = () => {
     setCityFilter('');
     
     try {
-      const response = await axios.get('/api/restaurants');
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/restaurants`);
       setRestaurants(response.data);
     } catch (error) {
       console.error('Error fetching restaurants:', error);

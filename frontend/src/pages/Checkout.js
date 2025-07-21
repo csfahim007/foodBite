@@ -25,8 +25,9 @@ const StripePaymentForm = ({ orderTotal, orderId, onSuccess }) => {
         if (!orderResponse.data || orderResponse.data.items.length === 0) {
           throw new Error('Order is invalid or has no items');
         }
+        //axios.post(`${process.env.REACT_APP_API_URL}/api/payments/confirm-payment`
 
-        const response = await axios.post('/api/payments/create-payment-intent', {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/payments/create-payment-intent`, {
           orderId
         });
         
@@ -69,9 +70,9 @@ const StripePaymentForm = ({ orderTotal, orderId, onSuccess }) => {
       if (stripeError) {
         throw stripeError;
       }
-
+//axios.get(`${process.env.REACT_APP_API_URL}/api/restaurants`)
       if (paymentIntent.status === 'succeeded') {
-        await axios.post('/api/payments/confirm-payment', {
+        await axios.post(`${process.env.REACT_APP_API_URL}/api/payments/confirm-payment`, {
           orderId,
           paymentIntentId: paymentIntent.id
         });
@@ -189,7 +190,7 @@ const Checkout = () => {
         throw new Error('Please set a delivery address in your profile');
       }
 
-      const response = await axios.post('/api/orders', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/orders`, {
         paymentMethod: 'card',
         deliveryAddress: user.address._id || user.address
       });

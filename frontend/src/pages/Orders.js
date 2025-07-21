@@ -11,7 +11,7 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get('/api/orders');
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/orders`);
         setOrders(res.data);
         setLoading(false);
       } catch (err) {

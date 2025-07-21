@@ -20,10 +20,10 @@ const RestaurantDetails = () => {
   useEffect(() => {
     const fetchRestaurantAndMenu = async () => {
       try {
-        const restaurantResponse = await axios.get(`/api/restaurants/${id}`);
+        const restaurantResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/restaurants/${id}`);
         setRestaurant(restaurantResponse.data);
         
-        const menuResponse = await axios.get(`/api/restaurants/${id}/menu`);
+        const menuResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/restaurants/${id}/menu`);
         setMenu(menuResponse.data);
         
         const initialQuantities = {};

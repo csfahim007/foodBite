@@ -23,7 +23,7 @@ const Favorites = () => {
           setFavorites(favs);
         } else {
           // Fallback if context method not available (for development)
-          const response = await fetch('/api/users/favorites');
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/favorites`);
           const data = await response.json();
           setFavorites(data);
         }

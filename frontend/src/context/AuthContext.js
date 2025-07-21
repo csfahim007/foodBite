@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      const res = await axios.get('/api/auth/me');
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/me`);
       dispatch({
         type: 'USER_LOADED',
         payload: res.data
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     try {
-      const res = await axios.post('/api/auth/register', formData, config);
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, formData, config);
       
       dispatch({
         type: 'REGISTER_SUCCESS',
@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     try {
-      const res = await axios.post('/api/auth/login', formData, config);
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, formData, config);
       
       dispatch({
         type: 'LOGIN_SUCCESS',
@@ -124,7 +124,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     try {
-      const res = await axios.put('/api/users/preferences', preferences, config);
+      const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/users/preferences`, preferences, config);
       dispatch({
         type: 'UPDATE_USER',
         payload: res.data
@@ -140,7 +140,7 @@ export const AuthProvider = ({ children }) => {
   // Add favorite restaurant
   const addFavoriteRestaurant = async (restaurantId) => {
     try {
-      await axios.post(`/api/users/favorites/restaurants/${restaurantId}`);
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/users/favorites/restaurants/${restaurantId}`);
       dispatch({
         type: 'UPDATE_FAVORITES'
       });
@@ -157,7 +157,7 @@ export const AuthProvider = ({ children }) => {
   // Remove favorite restaurant
   const removeFavoriteRestaurant = async (restaurantId) => {
     try {
-      await axios.delete(`/api/users/favorites/restaurants/${restaurantId}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/users/favorites/restaurants/${restaurantId}`);
       dispatch({
         type: 'UPDATE_FAVORITES'
       });
@@ -188,7 +188,7 @@ export const AuthProvider = ({ children }) => {
   // Add frequent item
   const addFrequentItem = async (itemId) => {
     try {
-      await axios.post(`/api/users/frequent-items/${itemId}`);
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/users/frequent-items/${itemId}`);
       return true;
     } catch (err) {
       return false;
@@ -198,7 +198,7 @@ export const AuthProvider = ({ children }) => {
   // Get frequent items
   const getFrequentItems = async () => {
     try {
-      const res = await axios.get('/api/users/frequent-items');
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/frequent-items`);
       return res.data;
     } catch (err) {
       return [];

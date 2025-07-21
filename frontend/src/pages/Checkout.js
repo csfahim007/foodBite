@@ -21,7 +21,7 @@ const StripePaymentForm = ({ orderTotal, orderId, onSuccess }) => {
   React.useEffect(() => {
     const initializePayment = async () => {
       try {
-        const orderResponse = await axios.get(`/api/orders/${orderId}`);
+        const orderResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/orders/${orderId}`);
         if (!orderResponse.data || orderResponse.data.items.length === 0) {
           throw new Error('Order is invalid or has no items');
         }

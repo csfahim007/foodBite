@@ -29,7 +29,11 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: [
+    process.env.CLIENT_URL,
+    'http://localhost:3000', // for local development
+    /\.onrender\.com$/  // Allow all Render domains during development
+  ],
   credentials: true
 }));
 app.use(morgan('dev')); // Request logging
@@ -54,6 +58,11 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 
 // Health check endpoint
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Khabar Lagbe API is running!' });
+});
+
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
@@ -97,7 +106,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);

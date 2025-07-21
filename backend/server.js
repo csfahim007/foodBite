@@ -70,16 +70,6 @@ app.get('/health', (req, res) => {
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
-  
-  // Handle client-side routing - send index.html for non-API routes
-  app.use((req, res, next) => {
-    // Skip API routes
-    if (req.path.startsWith('/api/')) {
-      return next();
-    }
-    // Send React app for all other routes
-    res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
-  });
 }
 
 // Error handling middleware
@@ -91,13 +81,20 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler for API routes
-app.use('/api/*', (req, res) => {
+// 404 handler for API routes - Express v5 compatible
+app.all('/api/*splat', (req, res) => {
   res.status(404).json({
     success: false,
     message: 'API endpoint not found'
   });
 });
+
+// Handle client-side routing in production - Express v5 compatible
+if (process.env.NODE_ENV === 'production') {
+  app.all('/*splat', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+  });
+}
 
 // Start server
 const PORT = process.env.PORT || 5000;
@@ -117,6 +114,6 @@ process.on('unhandledRejection', (err) => {
 process.on('uncaughtException', (err) => {
   console.error('Uncaught exception:', err);
   server.close(() => process.exit(1));
-});
+});   
 
 module.exports = app;

@@ -1,12 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
-import { FaShoppingCart, FaSignOutAlt } from 'react-icons/fa';
+import { FaShoppingCart, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
+
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);
   const { cart } = useCart();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -17,16 +19,16 @@ const Navbar = () => {
 
   const authLinks = (
     <>
-      <li>
-        <Link to="/favorites">My Favorites</Link>
+      <li className="nav-item">
+        <Link to="/favorites" className="nav-link">My Favorites</Link>
       </li>
-      <li>
-        <Link to="/preferences">My Preferences</Link>
+      <li className="nav-item">
+        <Link to="/preferences" className="nav-link">My Preferences</Link>
       </li>
-      <li>
-        <Link to="/profile">Profile</Link>
+      <li className="nav-item">
+        <Link to="/profile" className="nav-link">Profile</Link>
       </li>
-      <li>
+      <li className="nav-item">
         <Link to="/cart" className="cart-link">
           <FaShoppingCart />
           {cartItemCount > 0 && (
@@ -34,7 +36,7 @@ const Navbar = () => {
           )}
         </Link>
       </li>
-      <li>
+      <li className="nav-item">
         <button onClick={handleLogout} className="logout-btn">
           <FaSignOutAlt /> <span>Logout</span>
         </button>
@@ -44,13 +46,13 @@ const Navbar = () => {
 
   const guestLinks = (
     <>
-      <li>
-        <Link to="/register">Register</Link>
+      <li className="nav-item">
+        <Link to="/register" className="nav-link">Register</Link>
       </li>
-      <li>
-        <Link to="/login">Login</Link>
+      <li className="nav-item">
+        <Link to="/login" className="nav-link">Login</Link>
       </li>
-      <li>
+      <li className="nav-item">
         <Link to="/cart" className="cart-link">
           <FaShoppingCart />
           {cartItemCount > 0 && (
@@ -64,15 +66,25 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo main-logo " >
+        <Link to="/" className="navbar-logo">
           FoodBite
         </Link>
-        <ul className="nav-menu">
-          <li>
-            <Link to="/">Home</Link>
+        <button
+          className="hamburger"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+        </button>
+        <ul className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
+          <li className="nav-item">
+            <Link to="/" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+              Home
+            </Link>
           </li>
-          <li>
-            <Link to="/restaurants">Restaurants</Link>
+          <li className="nav-item">
+            <Link to="/restaurants" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+              Restaurants
+            </Link>
           </li>
           {isAuthenticated ? authLinks : guestLinks}
         </ul>

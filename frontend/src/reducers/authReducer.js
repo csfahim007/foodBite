@@ -6,7 +6,8 @@ const authReducer = (state, action) => {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: action.payload
+        user: action.payload,
+        error: null
       };
     case 'REGISTER_SUCCESS':
     case 'LOGIN_SUCCESS':
@@ -16,7 +17,7 @@ const authReducer = (state, action) => {
         token: action.payload.token,
         isAuthenticated: true,
         loading: false,
-        error: null // Clear any previous errors
+        error: null
       };
     case 'REGISTER_FAIL':
     case 'AUTH_ERROR':
@@ -29,7 +30,7 @@ const authReducer = (state, action) => {
         isAuthenticated: false,
         loading: false,
         user: null,
-        error: action.type === 'LOGOUT' ? null : action.payload // Don't show error on logout
+        error: action.type === 'LOGOUT' ? null : action.payload
       };
     case 'CLEAR_ERRORS':
       return {
@@ -40,17 +41,24 @@ const authReducer = (state, action) => {
       return {
         ...state,
         user: action.payload,
-        loading: false
+        loading: false,
+        error: null
       };
     case 'USER_ERROR':
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        loading: false
       };
     case 'UPDATE_FAVORITES':
       return {
         ...state,
-        loading: false
+        user: {
+          ...state.user,
+          favoriteRestaurants: action.payload
+        },
+        loading: false,
+        error: null
       };
     default:
       return state;

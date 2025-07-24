@@ -4,28 +4,23 @@ import axios from 'axios';
 import authReducer from '../reducers/authReducer';
 import setAuthToken from '../utils/setAuthToken';
 
-// Initial state
 const initialState = {
   token: localStorage.getItem('token'),
-  isAuthenticated: localStorage.getItem('token') ? true : false, // Changed from null to a boolean
+  isAuthenticated: localStorage.getItem('token') ? true : false,
   loading: true,
   user: null,
   error: null
 };
 
-// Create context
 export const AuthContext = createContext(initialState);
 
-// Provider component
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // Load user
   const loadUser = async () => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     } else {
-      // If no token is found, dispatch AUTH_ERROR
       dispatch({ type: 'AUTH_ERROR' });
       return;
     }
@@ -42,10 +37,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Initial load - wrapped in useEffect with proper dependency
   useEffect(() => {
     loadUser();
   }, []);
+
 
   // Register user
   const register = async (formData) => {
@@ -141,8 +136,10 @@ export const AuthProvider = ({ children }) => {
   const addFavoriteRestaurant = async (restaurantId) => {
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/api/users/favorites/restaurants/${restaurantId}`);
+      const updatedFavorites = [...(state.user?.favoriteRestaurants || []), restaurantId];
       dispatch({
-        type: 'UPDATE_FAVORITES'
+        type: 'UPDATE_FAVORITES',
+        payload: updatedFavorites
       });
       return true;
     } catch (err) {
@@ -158,8 +155,10 @@ export const AuthProvider = ({ children }) => {
   const removeFavoriteRestaurant = async (restaurantId) => {
     try {
       await axios.delete(`${process.env.REACT_APP_API_URL}/api/users/favorites/restaurants/${restaurantId}`);
+      const updatedFavorites = (state.user?.favoriteRestaurants || []).filter(id => id !== restaurantId);
       dispatch({
-        type: 'UPDATE_FAVORITES'
+        type: 'UPDATE_FAVORITES',
+        payload: updatedFavorites
       });
       return true;
     } catch (err) {
@@ -174,7 +173,7 @@ export const AuthProvider = ({ children }) => {
   // Get favorite restaurants
   const getFavoriteRestaurants = async () => {
     try {
-      const res = await axios.get('/api/users/favorites/restaurants');
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/favorites/restaurants`);
       return res.data;
     } catch (err) {
       dispatch({
